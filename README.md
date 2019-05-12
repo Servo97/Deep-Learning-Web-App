@@ -33,7 +33,7 @@ Add additional notes about how to deploy this on a live system
 
 ## Author
 
-* **Sarvesh Patil** - *Initial work* - [Deep-Learning-Web-App](https://github.com/Servo97/Deep-Learning-Web-App)
+* **Sarvesh Patil**
 
 ## License
 
