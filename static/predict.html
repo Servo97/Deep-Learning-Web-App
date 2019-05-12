@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Snore's Deep Learning App</title>
+        <style>
+        * {font-size: 30px;
+        }
+        </style>
+    </head>
+    <body>
+        <input id = "image-selector" type="file"/>
+        <button id="predict-button">Predict</button>
+        <p style="font-weight:bold">Prediction:</p>
+        <p><span id="vehicle"></span> <span id="confidence"></span></p>
+        <img id="selected-image" src=""/>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script>
+            let base64Image;
+            $("#image-selector").change(function(){
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    let dataURL = reader.result;
+                    $('#selected-image').attr("src",dataURL);
+                    base64Image = dataURL.replace("data:image/png;base64,","");
+                    console.log(base64Image);
+                }
+                reader.readAsDataURL($("#image-selector")[0].files[0]);
+                $("#vehicle").text("");
+                $("#confidence").text("");
+            });
+            $("#predict-button").click(function(event){
+                let message = {
+                    image: base64Image
+                }
+                console.log(message);
+                $.post("http://192.168.32.60:5000/predict",JSON.stringify(message),function(response){
+                    $("#vehicle").text(response.prediction.vehicle);
+                    $("#confidence").text(response.prediction.confidence.toFixed(6));
+                    console.log(response);
+                });
+            })
+        </script>
+    </body>
+</html>
